@@ -887,6 +887,21 @@ window.addEventListener("DOMContentLoaded", () => {
     showNotify("saved");
   });
 
+  // hamburger menu toggle
+  document.getElementById("hamburger-btn")?.addEventListener("click", () => {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar) sidebar.classList.toggle("open");
+  });
+
+  // close sidebar when clicking outside on mobile
+  document.addEventListener("click", (e) => {
+    const sidebar = document.querySelector(".sidebar");
+    const hamburger = document.getElementById("hamburger-btn");
+    if (sidebar && sidebar.classList.contains("open") && !sidebar.contains(e.target) && e.target !== hamburger) {
+      sidebar.classList.remove("open");
+    }
+  });
+
   // apply initial theme
   applyTheme("light");
 });
