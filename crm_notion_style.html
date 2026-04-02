@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjectCRM — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="crm_notion_style.css" />
+</head>
+<body>
+<div class="crm">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="ws-header">
+      <div class="ws-icon">P</div>
+      <div>
+        <div class="ws-name">ProjectCRM</div>
+        <div class="ws-sub" data-i18n="workspace">Management panel</div>
+      </div>
+      <span class="ws-arrow">⌄</span>
+    </div>
+
+    <div class="sidebar-section" id="nav-list"></div>
+
+    <div class="sidebar-divider"></div>
+
+    <div style="padding: 0 8px;">
+      <button class="nav-item" id="new-page-btn">
+        <span class="nav-icon">+</span>
+        <span data-i18n="newPage">New page</span>
+      </button>
+    </div>
+
+    <div class="user-row" id="user-profile-btn" title="Open profile">
+      <div class="u-avatar" id="user-avatar">PA</div>
+      <div>
+        <div class="u-name">Polad Aliyev</div>
+        <div class="u-role" data-i18n="userRole">Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <div class="topbar">
+      <div class="breadcrumb">
+        <span data-i18n="breadcrumb.app">ProjectCRM</span>
+        <span class="breadcrumb-sep"> / </span>
+        <span class="breadcrumb-cur" id="breadcrumb-cur" data-i18n="breadcrumb.dashboard">Dashboard</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn theme-toggle" id="theme-toggle-btn" title="Toggle theme">
+          <span class="theme-icon">☀️</span>
+        </button>
+        <button class="icon-btn" data-i18n-title="topbar.share" title="Share">↗</button>
+        <button class="icon-btn" data-i18n-title="topbar.comments" title="Comments">💬</button>
+        <button class="icon-btn" data-i18n-title="topbar.more" title="More">···</button>
+        <div class="lang-menu">
+          <select id="lang-select" class="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="az">Azərbaycan</option>
+            <option value="ru">Русский</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DASHBOARD PAGE ── -->
+    <div class="page" id="page-dashboard">
+      <div class="page-icon">📋</div>
+      <h1 class="page-title" data-i18n="page.title">Dashboard</h1>
+      <p class="page-desc" data-i18n="page.desc">Overview of the system · March 2026</p>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <span data-i18n="page.callout">This dashboard will work with dynamic data once connected to real API endpoints. Currently mock data is shown.</span>
+      </div>
+
+      <section class="section section-stats">
+        <div class="stats-row" id="stats-row"></div>
+      </section>
+
+      <section class="section section-users">
+        <div class="sec-header">
+          <div class="sec-title">👤 <span data-i18n="section.users">Users</span></div>
+          <div class="sec-actions">
+            <button class="text-btn" data-i18n="section.filter">Filter</button>
+            <button class="text-btn" data-i18n="section.sort">Sort</button>
+            <button class="new-btn" data-i18n="section.new">+ New</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="table.name">Name</th>
+                <th data-i18n="table.role">Role</th>
+                <th data-i18n="table.status">Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section section-clients">
+        <div class="sec-header">
+          <div class="sec-title">🏢 <span data-i18n="section.clients">Clients</span></div>
+          <div class="sec-actions">
+            <button class="text-btn" data-i18n="section.filter">Filter</button>
+            <button class="text-btn" data-i18n="section.sort">Sort</button>
+            <button class="new-btn" data-i18n="section.new">+ New</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="table.name">Name</th>
+                <th data-i18n="table.phone">Phone</th>
+                <th data-i18n="table.owner">Owner</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="clients-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section section-projects">
+        <div class="sec-header">
+          <div class="sec-title">📁 <span data-i18n="section.projects">Projects</span></div>
+          <div class="sec-actions">
+            <div class="search-box">
+              <span class="search-icon">⌕</span>
+              <input class="search-input" id="project-search" data-i18n-placeholder="searchPlaceholder" placeholder="Search..." />
+            </div>
+            <button class="filter-chip" data-i18n="section.filterChip">⊞ Filter</button>
+            <button class="new-btn" data-i18n="section.new">+ New</button>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="table.name">Name</th>
+                <th data-i18n="table.client">Client</th>
+                <th data-i18n="table.status">Status</th>
+                <th>Start</th>
+                <th data-i18n="table.deadline">Deadline</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="projects-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── PROFILE PAGE ── -->
+    <div class="page" id="page-profile" style="display:none;">
+      <div class="page-icon">👤</div>
+      <h1 class="page-title">Profile</h1>
+      <p class="page-desc">Manage your personal details</p>
+
+      <div class="settings-block">
+        <div class="settings-block-title">Personal Info</div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">First Name</div>
+            <div class="settings-row-sub">Your first name shown in UI</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="profile-firstname" value="Polad" type="text" />
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Last Name</div>
+            <div class="settings-row-sub">Your last name shown in UI</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="profile-lastname" value="Aliyev" type="text" />
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Username</div>
+            <div class="settings-row-sub">Your unique username for sign-in</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="profile-username" value="polad" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-block">
+        <div class="settings-block-title">Preferences</div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Display Name</div>
+            <div class="settings-row-sub">Name shown throughout app</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="profile-displayname" value="Polad Aliyev" type="text" />
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-save-row">
+        <button class="modal-save" id="profile-save-btn">Save Profile</button>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS PAGE ── -->
+    <div class="page" id="page-settings" style="display:none;">
+      <div class="page-icon">⚙️</div>
+      <h1 class="page-title" data-i18n="settings.title">Settings</h1>
+      <p class="page-desc" data-i18n="settings.desc">Manage your workspace preferences</p>
+
+      <!-- Appearance -->
+      <div class="settings-block">
+        <div class="settings-block-title" data-i18n="settings.appearance">Appearance</div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label" data-i18n="settings.theme">Theme</div>
+            <div class="settings-row-sub" data-i18n="settings.themeDesc">Switch between light and dark mode</div>
+          </div>
+          <div class="theme-toggle-group" id="theme-toggle-group">
+            <button class="theme-opt active" data-theme-val="light" id="theme-opt-light">
+              <span class="theme-opt-icon">☀️</span>
+              <span data-i18n="settings.light">Light</span>
+            </button>
+            <button class="theme-opt" data-theme-val="dark" id="theme-opt-dark">
+              <span class="theme-opt-icon">🌙</span>
+              <span data-i18n="settings.dark">Dark</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label" data-i18n="settings.language">Language</div>
+            <div class="settings-row-sub" data-i18n="settings.languageDesc">Interface display language</div>
+          </div>
+          <select class="settings-select" id="settings-lang-select">
+            <option value="en">English</option>
+            <option value="az">Azərbaycan</option>
+            <option value="ru">Русский</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div class="settings-block">
+        <div class="settings-block-title">Account</div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Email</div>
+            <div class="settings-row-sub">Primary email for notifications and login</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="settings-email" value="polad@example.com" type="email" />
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Password</div>
+            <div class="settings-row-sub">Change your password regularly</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="settings-password" value="" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label">Two-factor auth</div>
+            <div class="settings-row-sub">Add an extra layer of security</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="settings-2fa" checked /><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <!-- Workspace -->
+      <div class="settings-block">
+        <div class="settings-block-title" data-i18n="settings.workspace">Workspace</div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label" data-i18n="settings.wsName">Workspace Name</div>
+            <div class="settings-row-sub" data-i18n="settings.wsNameDesc">Visible in the sidebar header</div>
+          </div>
+          <div class="settings-input-wrap">
+            <input class="settings-input" id="ws-name-input" value="ProjectCRM" type="text" />
+          </div>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label" data-i18n="settings.dataInfo">Data</div>
+            <div class="settings-row-sub" data-i18n="settings.dataInfoDesc">Currently using mock data. Connect to a real API to enable live data.</div>
+          </div>
+          <span class="tag t-orange" data-i18n="settings.mock">Mock</span>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="settings-block settings-danger">
+        <div class="settings-block-title danger-title" data-i18n="settings.danger">Danger Zone</div>
+        <div class="settings-row">
+          <div class="settings-row-info">
+            <div class="settings-row-label" data-i18n="settings.resetData">Reset All Data</div>
+            <div class="settings-row-sub" data-i18n="settings.resetDataDesc">Restore all users, clients, and projects to their initial state.</div>
+          </div>
+          <button class="danger-btn" id="reset-data-btn" data-i18n="settings.resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="settings-save-row">
+        <button class="modal-save" id="settings-save-btn" data-i18n="settings.saveProfile">Save Profile</button>
+      </div>
+    </div>
+
+    <!-- ── REPORTS PAGE ── -->
+    <div class="page" id="page-reports" style="display:none;">
+      <div class="page-icon">📊</div>
+      <h1 class="page-title" data-i18n="reports.title">Reports</h1>
+      <p class="page-desc" data-i18n="reports.desc">Analytics and summaries</p>
+      <div class="callout">
+        <span class="callout-icon">🚧</span>
+        <span data-i18n="reports.soon">Reports section is coming soon. Connect your API to enable analytics.</span>
+      </div>
+      <div class="reports-placeholder">
+        <div class="reports-chart-mock">
+          <div class="chart-bar-group">
+            <div class="chart-bar" style="height:60%"><span class="chart-label">Jan</span></div>
+            <div class="chart-bar" style="height:80%"><span class="chart-label">Feb</span></div>
+            <div class="chart-bar active" style="height:100%"><span class="chart-label">Mar</span></div>
+            <div class="chart-bar" style="height:45%"><span class="chart-label">Apr</span></div>
+            <div class="chart-bar" style="height:70%"><span class="chart-label">May</span></div>
+            <div class="chart-bar" style="height:55%"><span class="chart-label">Jun</span></div>
+          </div>
+          <div class="chart-caption" data-i18n="reports.chartCaption">Monthly project activity (mock)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /crm -->
+
+<script src="crm_notion_style.js"></script>
+</body>
+</html>
